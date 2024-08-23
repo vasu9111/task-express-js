@@ -4,7 +4,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev":"node --watch server"
+    "dev": "node --watch server"
   },
   "keywords": [],
   "author": "",
@@ -12,5 +12,8 @@
   "description": "",
   "dependencies": {
     "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "prettier": "^3.3.3"
   }
 }
