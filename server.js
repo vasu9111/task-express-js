@@ -2,10 +2,12 @@ const express = require("express");
 
 const app = express();
 
+app.use(express.json()); // row data
+app.use(express.urlencoded({ extended: false })); // body uelncoded
+
 app.get("/", (req, res) => {
   res.send("<h1>welcome to book store</h1>");
 });
-
 let posts = [
   { id: 1, bookname: "Bhagavad Gita", price: "1000" },
   { id: 2, bookname: "Mahabharata", price: "2000" },
@@ -28,9 +30,6 @@ app.get("/book/:id", (req, res) => {
 });
 
 // data add (post)
-app.use(express.json()); // row data
-app.use(express.urlencoded({ extended: false })); // body uelncoded
-
 app.post("/book", (req, res) => {
   const newpost = {
     id: posts.length + 1,
