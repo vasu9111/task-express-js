@@ -1,5 +1,6 @@
 const express = require("express");
-const { v4: uuidv4 } = require("uuid");
+const { v4: uuidv4 } = require("uuid"); // uuid
+const { faker } = require("@faker-js/faker"); //faker-js
 
 const app = express();
 
@@ -9,11 +10,21 @@ app.use(express.urlencoded({ extended: false })); // body uelncoded
 app.get("/", (req, res) => {
   res.send("<h1>welcome to book store</h1>");
 });
-let posts = [
-  { id: uuidv4(), bookname: "Bhagavad Gita", price: "1000" },
-  { id: uuidv4(), bookname: "Mahabharata", price: "2000" },
-  { id: uuidv4(), bookname: "Ramayana", price: "3000" },
-];
+// let posts = [
+//   { id: uuidv4(), bookname: "Bhagavad Gita", price: "1000" },
+//   { id: uuidv4(), bookname: "Mahabharata", price: "2000" },
+//   { id: uuidv4(), bookname: "Ramayana", price: "3000" },
+// ];
+
+// genrate 50 random book
+let posts = [];
+for (let i = 0; i < 50; i++) {
+  posts.push({
+    id: uuidv4(),
+    bookname: faker.lorem.words(3),
+    price: faker.commerce.price({ Min: 100, max: 5000, dec: 2, symbol: "₹" }),
+  });
+}
 
 //get all data
 app.get("/book", (req, res) => {
@@ -34,7 +45,7 @@ app.get("/book/:id", (req, res) => {
 // data add (post)
 app.post("/book", (req, res) => {
   const newpost = {
-    id: uuidv4(), //rando id
+    id: uuidv4(), //random id
     bookname: req.body.bookname,
     price: req.body.price,
   };
