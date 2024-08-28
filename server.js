@@ -1,4 +1,5 @@
 const express = require("express");
+const { v4: uuidv4 } = require("uuid");
 
 const app = express();
 
@@ -9,10 +10,11 @@ app.get("/", (req, res) => {
   res.send("<h1>welcome to book store</h1>");
 });
 let posts = [
-  { id: 1, bookname: "Bhagavad Gita", price: "1000" },
-  { id: 2, bookname: "Mahabharata", price: "2000" },
-  { id: 3, bookname: "Ramayana", price: "3000" },
+  { id: uuidv4(), bookname: "Bhagavad Gita", price: "1000" },
+  { id: uuidv4(), bookname: "Mahabharata", price: "2000" },
+  { id: uuidv4(), bookname: "Ramayana", price: "3000" },
 ];
+
 //get all data
 app.get("/book", (req, res) => {
   res.json(posts);
@@ -20,7 +22,7 @@ app.get("/book", (req, res) => {
 
 // get single data
 app.get("/book/:id", (req, res) => {
-  const id = parseInt(req.params.id);
+  const id = req.params.id; //
   const post = posts.find((post) => post.id === id); //
   if (!post) {
     res.status(404).json({ msg: `A book id ${id} was not found` });
@@ -32,7 +34,7 @@ app.get("/book/:id", (req, res) => {
 // data add (post)
 app.post("/book", (req, res) => {
   const newpost = {
-    id: posts.length + 1,
+    id: uuidv4(), //rando id
     bookname: req.body.bookname,
     price: req.body.price,
   };
@@ -43,10 +45,9 @@ app.post("/book", (req, res) => {
 /// update data (put)
 
 app.put("/book/:id", (req, res) => {
-  const id = parseInt(req.params.id);
+  const id = req.params.id; //
   const post = posts.find((post) => post.id === id);
-
-  post.bookname = req.body.bookname;
+  (post.id = uuidv4()), (post.bookname = req.body.bookname);
   post.price = req.body.price;
   res.status(200).json(posts);
 });
@@ -54,7 +55,7 @@ app.put("/book/:id", (req, res) => {
 // delete data (delete)
 
 app.delete("/book/:id", (req, res) => {
-  const id = parseInt(req.params.id);
+  const id = req.params.id; //
   const post = posts.find((post) => post === id);
   if (!post) {
     res.status(404).json({ msg: `A book id ${id} was delete` });
