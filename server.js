@@ -22,13 +22,32 @@ for (let i = 0; i < 50; i++) {
   posts.push({
     id: uuidv4(),
     bookname: faker.lorem.words(3),
-    price: faker.commerce.price({ Min: 100, max: 5000, dec: 2, symbol: "₹" }),
+    price: faker.commerce.price({ min: 1000, max: 5000, dec: 2, symbol: "₹" }),
   });
 }
-
+// app.get("/book", (req, res) => {
+//   res.json(posts);
+// });
 //get all data
 app.get("/book", (req, res) => {
-  res.json(posts);
+  const page = parseInt(req.query.page);
+  const limit = parseInt(req.query.limit);
+
+  const startIndex = (page - 1) * limit;
+  const endIndex = page * limit;
+
+  const pagination = posts.slice(startIndex, endIndex);
+
+  const totalbook = posts.length;
+  const totalpage = Math.ceil(totalbook / limit);
+
+  res.json({
+    totalbook,
+    totalpage,
+    currentpage: page,
+    bookperpage: limit,
+    book: pagination,
+  });
 });
 
 // get single data
