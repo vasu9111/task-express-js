@@ -30,15 +30,32 @@ for (let i = 0; i < 50; i++) {
 // });
 //get all data
 app.get("/book", (req, res) => {
-  const page = parseInt(req.query.page);
-  const limit = parseInt(req.query.limit);
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 5;
+  const search = req.query.search?.toLowerCase();
+  const minPrice = parseFloat(req.query.minPrice) || 0;
+  const maxPrice = parseFloat(req.query.maxPrice) || Infinity;
 
+  // Filter posts based on search query
+  let filteredPosts = posts;
+  if (search) {
+    filteredPosts = posts.filter((post) =>
+      post.bookname.toLowerCase().includes(search)
+    );
+  }
+
+  // Filter posts based on price range
+  filteredPosts = filteredPosts.filter((post) => {
+    const price = parseFloat(post.price.replace("₹", ""));
+    return price >= minPrice && price <= maxPrice;
+  });
+  // pagination
   const startIndex = (page - 1) * limit;
   const endIndex = page * limit;
 
-  const pagination = posts.slice(startIndex, endIndex);
+  const pagination = filteredPosts.slice(startIndex, endIndex);
 
-  const totalbook = posts.length;
+  const totalbook = filteredPosts.length;
   const totalpage = Math.ceil(totalbook / limit);
 
   res.json({
