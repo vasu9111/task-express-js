@@ -10,11 +10,6 @@ app.use(express.urlencoded({ extended: false })); // body uelncoded
 app.get("/", (req, res) => {
   res.send("<h1>welcome to book store</h1>");
 });
-// let posts = [
-//   { id: uuidv4(), bookname: "Bhagavad Gita", price: "1000" },
-//   { id: uuidv4(), bookname: "Mahabharata", price: "2000" },
-//   { id: uuidv4(), bookname: "Ramayana", price: "3000" },
-// ];
 
 // genrate 50 random book
 let posts = [];
@@ -25,30 +20,29 @@ for (let i = 0; i < 50; i++) {
     price: faker.commerce.price({ min: 1000, max: 5000, dec: 2, symbol: "₹" }),
   });
 }
-// app.get("/book", (req, res) => {
-//   res.json(posts);
-// });
-//get all data
 app.get("/book", (req, res) => {
+  res.json(posts);
+});
+// get all data
+app.get("/book/api", (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 5;
   const search = req.query.search?.toLowerCase();
   const minPrice = parseFloat(req.query.minPrice) || 0;
   const maxPrice = parseFloat(req.query.maxPrice) || Infinity;
 
-  // Filter posts based on search query
+  // search by book name
   let filteredPosts = posts;
   if (search) {
-    filteredPosts = posts.filter((post) =>
-      post.bookname.toLowerCase().includes(search)
-    );
+    filteredPosts = posts.filter((post) => post.bookname.toLowerCase().includes(search));
   }
 
-  // Filter posts based on price range
+  // Filter by price range
   filteredPosts = filteredPosts.filter((post) => {
     const price = parseFloat(post.price.replace("₹", ""));
     return price >= minPrice && price <= maxPrice;
   });
+
   // pagination
   const startIndex = (page - 1) * limit;
   const endIndex = page * limit;
@@ -68,7 +62,7 @@ app.get("/book", (req, res) => {
 });
 
 // get single data
-app.get("/book/:id", (req, res) => {
+app.get("/book/api/:id", (req, res) => {
   const id = req.params.id; //
   const post = posts.find((post) => post.id === id); //
   if (!post) {
@@ -79,7 +73,7 @@ app.get("/book/:id", (req, res) => {
 });
 
 // data add (post)
-app.post("/book", (req, res) => {
+app.post("/book/api", (req, res) => {
   const newpost = {
     id: uuidv4(), //random id
     bookname: req.body.bookname,
@@ -91,7 +85,7 @@ app.post("/book", (req, res) => {
 
 /// update data (put)
 
-app.put("/book/:id", (req, res) => {
+app.put("/book/api/:id", (req, res) => {
   const id = req.params.id; //
   const post = posts.find((post) => post.id === id);
   (post.id = uuidv4()), (post.bookname = req.body.bookname);
@@ -101,7 +95,7 @@ app.put("/book/:id", (req, res) => {
 
 // delete data (delete)
 
-app.delete("/book/:id", (req, res) => {
+app.delete("/book/api/:id", (req, res) => {
   const id = req.params.id; //
   const post = posts.find((post) => post === id);
   if (!post) {
