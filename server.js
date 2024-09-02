@@ -1,14 +1,14 @@
-const express = require("express");
-const { v4: uuidv4 } = require("uuid"); // uuid
-const { faker } = require("@faker-js/faker"); //faker-js
+const express = require('express');
+const { v4: uuidv4 } = require('uuid'); // uuid
+const { faker } = require('@faker-js/faker'); //faker-js
 
 const app = express();
 
 app.use(express.json()); // row data
 app.use(express.urlencoded({ extended: false })); // body uelncoded
 
-app.get("/", (req, res) => {
-  res.send("<h1>welcome to book store</h1>");
+app.get('/', (req, res) => {
+  res.send('<h1>welcome to book store</h1>');
 });
 
 // genrate 50 random book
@@ -17,14 +17,14 @@ for (let i = 0; i < 50; i++) {
   posts.push({
     id: uuidv4(),
     bookname: faker.lorem.words(3),
-    price: faker.commerce.price({ min: 1000, max: 5000, dec: 2, symbol: "₹" }),
+    price: faker.commerce.price({ min: 1000, max: 5000, dec: 2, symbol: '₹' }),
   });
 }
-app.get("/book", (req, res) => {
+app.get('/book', (req, res) => {
   res.json(posts);
 });
 // get all data
-app.get("/book/api", (req, res) => {
+app.get('/book/api', (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 5;
   const search = req.query.search?.toLowerCase();
@@ -39,7 +39,7 @@ app.get("/book/api", (req, res) => {
 
   // Filter by price range
   filteredPosts = filteredPosts.filter((post) => {
-    const price = parseFloat(post.price.replace("₹", ""));
+    const price = parseFloat(post.price.replace('₹', ''));
     return price >= minPrice && price <= maxPrice;
   });
 
@@ -62,7 +62,7 @@ app.get("/book/api", (req, res) => {
 });
 
 // get single data
-app.get("/book/api/:id", (req, res) => {
+app.get('/book/api/:id', (req, res) => {
   const id = req.params.id; //
   const post = posts.find((post) => post.id === id); //
   if (!post) {
@@ -73,7 +73,7 @@ app.get("/book/api/:id", (req, res) => {
 });
 
 // data add (post)
-app.post("/book/api", (req, res) => {
+app.post('/book/api', (req, res) => {
   const newpost = {
     id: uuidv4(), //random id
     bookname: req.body.bookname,
@@ -85,7 +85,7 @@ app.post("/book/api", (req, res) => {
 
 /// update data (put)
 
-app.put("/book/api/:id", (req, res) => {
+app.put('/book/api/:id', (req, res) => {
   const id = req.params.id; //
   const post = posts.find((post) => post.id === id);
   (post.id = uuidv4()), (post.bookname = req.body.bookname);
@@ -95,7 +95,7 @@ app.put("/book/api/:id", (req, res) => {
 
 // delete data (delete)
 
-app.delete("/book/api/:id", (req, res) => {
+app.delete('/book/api/:id', (req, res) => {
   const id = req.params.id; //
   const post = posts.find((post) => post === id);
   if (!post) {
