@@ -1,6 +1,6 @@
 const express = require('express');
 const { v4: uuidv4 } = require('uuid'); // uuid
-const { faker } = require('@faker-js/faker'); //faker-js
+const { faker, ne } = require('@faker-js/faker'); //faker-js
 
 const app = express();
 
@@ -22,8 +22,9 @@ for (let i = 0; i < 50; i++) {
 }
 app.get('/book', (req, res) => {
   res.json(posts);
+  console.log(posts);
 });
-// get all data
+// get all data(query parametrs)
 app.get('/book/api', (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 5;
@@ -36,6 +37,7 @@ app.get('/book/api', (req, res) => {
   if (search) {
     filteredPosts = posts.filter((post) => post.bookname.toLowerCase().includes(search));
   }
+  console.log(filteredPosts);
 
   // Filter by price range
   filteredPosts = filteredPosts.filter((post) => {
@@ -64,12 +66,14 @@ app.get('/book/api', (req, res) => {
 // get single data
 app.get('/book/api/:id', (req, res) => {
   const id = req.params.id; //
-  const post = posts.find((post) => post.id === id); //
+  const post = posts.find((post) => post.id === id);
+  console.log(post); //
   if (!post) {
     res.status(404).json({ msg: `A book id ${id} was not found` });
   } else {
     res.status(200).json(post);
   }
+  console.log(!post);
 });
 
 // data add (post)
@@ -79,6 +83,7 @@ app.post('/book/api', (req, res) => {
     bookname: req.body.bookname,
     price: req.body.price,
   };
+  console.log(newpost);
   posts.push(newpost);
   res.status(200).json(posts);
 });
@@ -98,11 +103,13 @@ app.put('/book/api/:id', (req, res) => {
 app.delete('/book/api/:id', (req, res) => {
   const id = req.params.id; //
   const post = posts.find((post) => post === id);
+  console.log(post);
   if (!post) {
     res.status(404).json({ msg: `A book id ${id} was delete` });
     posts = posts.filter((post) => post.id !== id);
     res.status(200).json(post);
   }
+  console.log(!post);
 });
 
 app.listen(3000, () => console.log(`server is runing on port 3000`));
