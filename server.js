@@ -51,14 +51,14 @@ app.get('/book/api', (req, res) => {
 
   const pagination = filteredPosts.slice(startIndex, endIndex);
 
-  const totalbook = filteredPosts.length;
-  const totalpage = Math.ceil(totalbook / limit);
+  const totalBook = filteredPosts.length;
+  const totalPage = Math.ceil(totalBook / limit);
 
   res.json({
-    totalbook,
-    totalpage,
-    currentpage: page,
-    bookperpage: limit,
+    totalBook,
+    totalPage,
+    currentPage: page,
+    bookPerpage: limit,
     book: pagination,
   });
 });
@@ -88,12 +88,15 @@ app.post('/book/api', (req, res) => {
   res.status(200).json(posts);
 });
 
-/// update data (put)
+// update data (put)
 
 app.put('/book/api/:id', (req, res) => {
   const id = req.params.id; //
   const post = posts.find((post) => post.id === id);
-  (post.id = uuidv4()), (post.bookname = req.body.bookname);
+  if (!post) {
+    return res.status(404).json({ msg: `Book with id ${id} not found` });
+  }
+  post.bookname = req.body.bookname;
   post.price = req.body.price;
   res.status(200).json(posts);
 });
@@ -106,9 +109,9 @@ app.delete('/book/api/:id', (req, res) => {
   console.log(post);
   if (!post) {
     res.status(404).json({ msg: `A book id ${id} was delete` });
-    posts = posts.filter((post) => post.id !== id);
-    res.status(200).json(post);
   }
+  posts = posts.filter((post) => post.id !== id);
+  res.status(200).json(post);
   console.log(!post);
 });
 

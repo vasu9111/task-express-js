@@ -10,7 +10,7 @@
 
 # Install the required dependencies.
 
-npm install express uuid @faker-js/faker
+npm i express
 
 # Update the scripts section in package.json for development:
 
@@ -45,7 +45,7 @@ Run `http://localhost:3000/` in postman in postman
 
 5. Get a Page & Limit :- GET '/book/api?page=1&limit=5'
 
-6. Get a Min & Max Price:-GET'/book/apiminPrice=1000&maxPrice=2000'
+6. Get a Min & Max Price:-GET'/book/api?minPrice=1000&maxPrice=2000'
 
 7. Add a New Book :- POST '/book/api/'
 
