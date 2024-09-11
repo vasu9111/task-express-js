@@ -61,7 +61,7 @@ app.post('/book/api', (req, res) => {
   });
 });
 
-// get single data
+// get single data (GET)
 app.get('/book/api/:id', (req, res) => {
   const id = req.params.id; //
   const post = posts.find((post) => post.id === id);
