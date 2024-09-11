@@ -20,10 +20,12 @@ for (let i = 0; i < 50; i++) {
     price: faker.commerce.price({ min: 1000, max: 5000, dec: 2 }),
   });
 }
+//get all data
 app.get('/books', (req, res) => {
   res.json(posts);
 });
-// get all data(query parametrs)
+
+// post all data
 app.post('/book/api', (req, res) => {
   let { page = 1, limit = 5, search = '', minPrice, maxPrice } = req.body;
 
