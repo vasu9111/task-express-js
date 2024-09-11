@@ -1,37 +1,19 @@
-
 faker:-
 
 words - https://fakerjs.dev/api/lorem.html#words
 
 price - https://fakerjs.dev/api/commerce.html#price
 
-
-
 uuid :-
 
 https://www.npmjs.com/package/uuid
-
 
 pagination :-
 
 https://medium.com/@akhilanand.ak01/implementing-server-side-pagination-in-react-with-node-js-and-express-417d1c480630
 
+req body ,req query ,req params:-
 
+https://deepak14ri.medium.com/node-js-express-req-body-vs-req-params-vs-req-query-e4a54987603b
 
-Prettier file :- (comfig)
-Explanation of the Configuration:
-
-printWidth: 100 - Sets the maximum line width before wrapping code.
-
-tabWidth: 2 - Each indentation level will use 2 spaces.
-
-semi: true - Enforces the use of semicolons at the end of statements.
-
-singleQuote: false - Use double quotes for strings instead of single 
-quotes.
-
-trailingComma: es5 - Adds trailing commas where valid in ES5 (e.g., objects, arrays).
-
-endOfLine: lf - Use line feed (\n) as the newline character.
-
-
+https://www.geeksforgeeks.org/express-js-req-body-property/
