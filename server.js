@@ -30,6 +30,7 @@ app.post('/book/api', (req, res) => {
   let { page = 1, limit = 5, search = '', minPrice, maxPrice } = req.body;
 
   // search by book name
+  search = search.trim();
   let filteredPosts = posts;
   if (search) {
     filteredPosts = posts.filter((post) =>
