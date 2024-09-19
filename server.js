@@ -79,6 +79,14 @@ app.post('/book/api/add', (req, res) => {
   if (!bookname || !price) {
     return res.status(400).json({ msg: 'Bookname and price are required.' });
   }
+  // validation bookname
+  if (!isNaN(bookname)) {
+    return res.status(400).json({ msg: 'Bookname must be a field string.' });
+  }
+  // validation price
+  if (!price || isNaN(price)) {
+    return res.status(400).json({ msg: 'Price must be a field number.' });
+  }
   const newPost = {
     id: uuidv4(), // Generate random ID
     bookname,
