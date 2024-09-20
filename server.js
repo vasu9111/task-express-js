@@ -27,7 +27,7 @@ app.get('/books', (req, res) => {
 
 // post all data
 app.post('/book/api', (req, res) => {
-  let { page = 1, limit = 5, search = '', minPrice, maxPrice } = req.body;
+  let { page = 1, limit = 5, search = '', minPrice = '130', maxPrice = '300' } = req.body;
 
   // search by book name
   search = search.trim();
@@ -40,6 +40,8 @@ app.post('/book/api', (req, res) => {
 
   // Filter by price range
   if (minPrice || maxPrice) {
+    minPrice = parseFloat(minPrice);
+    maxPrice = parseFloat(maxPrice);
     filteredPosts = filteredPosts.filter(
       (post) => post.price >= minPrice && post.price <= maxPrice
     );
