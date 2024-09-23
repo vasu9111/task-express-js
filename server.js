@@ -27,7 +27,7 @@ app.get('/books', (req, res) => {
 
 // post all data
 app.post('/book/api', (req, res) => {
-  let { page = 1, limit = 5, search = '', minPrice = '130', maxPrice = '300' } = req.body;
+  let { page = 1, limit = 5, search = '', minPrice = '1000', maxPrice = '2000' } = req.body;
 
   // search by book name
   search = search.trim();
@@ -103,13 +103,13 @@ app.post('/book/api/add', (req, res) => {
 
 app.put('/book/api/:id', (req, res) => {
   const id = req.params.id; //
-  const post = posts.find((post) => post.id === id);
-  if (!post) {
+  const index = posts.findIndex((post) => post.id === id);
+  if (index === -1) {
     return res.status(404).json({ msg: `Book with id ${id} not found` });
   }
-  post.bookname = req.body.bookname || post.bookname;
-  post.price = req.body.price || post.price;
-  res.status(200).json(post);
+  posts[index].bookname = req.body.bookname || posts[index].bookname;
+  posts[index].price = req.body.price || posts[index].price;
+  res.status(200).json(posts[index]);
 });
 
 // delete data (delete)
