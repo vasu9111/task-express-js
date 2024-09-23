@@ -17,7 +17,7 @@ for (let i = 0; i < 50; i++) {
   posts.push({
     id: uuidv4(),
     bookname: faker.lorem.words(3),
-    price: faker.commerce.price({ min: 1000, max: 5000, dec: 2 }),
+    price: parseFloat(faker.commerce.price({ min: 1000, max: 5000 })),
   });
 }
 //get all data
@@ -108,7 +108,9 @@ app.put('/book/api/:id', (req, res) => {
     return res.status(404).json({ msg: `Book with id ${id} not found` });
   }
   posts[index].bookname = req.body.bookname || posts[index].bookname;
-  posts[index].price = req.body.price || posts[index].price;
+  if (req.body.price) {
+    posts[index].price = parseFloat(req.body.price);
+  }
   res.status(200).json(posts[index]);
 });
 
