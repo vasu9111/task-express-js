@@ -11,13 +11,19 @@ app.get('/', (req, res) => {
   res.send('<h1>welcome to book store</h1>');
 });
 
+// Function to generate random price with decimal
+const generateRandomPrice = (min, max) => {
+  const price = Math.random() * (max - min) + min;
+  return parseFloat(price.toFixed(2)); // 2 decimal places
+};
+
 // genrate 50 random book
 let posts = [];
 for (let i = 0; i < 50; i++) {
   posts.push({
     id: uuidv4(),
     bookname: faker.lorem.words(3),
-    price: parseFloat(faker.commerce.price({ min: 1000, max: 5000 })),
+    price: generateRandomPrice(1000, 5000),
   });
 }
 //get all data
