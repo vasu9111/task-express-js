@@ -13,7 +13,7 @@ router.get('/books', (req, res) => {
 
 // post all data
 router.post('/', (req, res) => {
-  let { page = 1, limit = 5, search = '', minPrice = '1000', maxPrice = '2000' } = req.body;
+  let { page = 1, limit = 5, search = '', minPrice, maxPrice } = req.body;
 
   // search by book name
   search = search.trim();
@@ -26,8 +26,8 @@ router.post('/', (req, res) => {
 
   // Filter by price range
   if (minPrice || maxPrice) {
-    minPrice = parseFloat(minPrice);
-    maxPrice = parseFloat(maxPrice);
+    minPrice = minPrice;
+    maxPrice = maxPrice;
     filteredPosts = filteredPosts.filter(
       (post) => post.price >= minPrice && post.price <= maxPrice
     );
@@ -55,7 +55,7 @@ router.get('/:id', (req, res) => {
   const id = req.params.id; //
   const post = posts.find((post) => post.id === id);
   if (!post) {
-    res.status(404).json({ msg: `A book id ${id} was not found` });
+    res.status(404).json({ error: `A book id ${id} was not found` });
   } else {
     res.status(200).json(post);
   }
@@ -65,15 +65,15 @@ router.get('/:id', (req, res) => {
 router.post('/add', (req, res) => {
   const { bookname, price } = req.body;
   if (!bookname || !price) {
-    return res.status(400).json({ msg: 'Bookname and price are required.' });
+    return res.status(400).json({ error: 'Bookname and price are required.' });
   }
   // validation bookname
   if (!isNaN(bookname)) {
-    return res.status(400).json({ msg: 'Bookname must be a field string.' });
+    return res.status(400).json({ error: 'Bookname must be a field string.' });
   }
   // validation price
   if (!price || isNaN(price)) {
-    return res.status(400).json({ msg: 'Price must be a field number.' });
+    return res.status(400).json({ error: 'Price must be a field number.' });
   }
   const newPost = {
     id: uuidv4(), // Generate random ID
@@ -91,7 +91,7 @@ router.put('/:id', (req, res) => {
   const id = req.params.id; //
   const index = posts.findIndex((post) => post.id === id);
   if (index === -1) {
-    return res.status(404).json({ msg: `Book with id ${id} not found` });
+    return res.status(404).json({ error: `Book with id ${id} not found` });
   }
   posts[index].bookname = req.body.bookname || posts[index].bookname;
   if (req.body.price) {
@@ -106,7 +106,7 @@ router.delete('/:id', (req, res) => {
   const { id } = req.params;
   const post = posts.findIndex((post) => post.id === id);
   if (post === -1) {
-    return res.status(404).json({ msg: `Book with ID ${id} not found` });
+    return res.status(404).json({ error: `Book with ID ${id} not found` });
   }
   posts.splice(post, 1);
   res.status(200).json({ msg: `Book with ID ${id} deleted` });
