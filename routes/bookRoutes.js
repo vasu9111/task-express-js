@@ -12,7 +12,7 @@ router.get('/books', (req, res) => {
 });
 
 // post all data
-router.post('/', (req, res) => {
+router.post('/books', (req, res) => {
   let { page = 1, limit = 5, search = '', minPrice, maxPrice } = req.body;
 
   // search by book name
@@ -51,7 +51,7 @@ router.post('/', (req, res) => {
 });
 
 // get single data (GET)
-router.get('/:id', (req, res) => {
+router.get('/book/:id', (req, res) => {
   const id = req.params.id; //
   const post = posts.find((post) => post.id === id);
   if (!post) {
@@ -62,7 +62,7 @@ router.get('/:id', (req, res) => {
 });
 
 // data add (post)
-router.post('/add', (req, res) => {
+router.post('/book/add', (req, res) => {
   const { bookname, price } = req.body;
   if (!bookname || !price) {
     return res.status(400).json({ error: 'Bookname and price are required.' });
@@ -87,7 +87,7 @@ router.post('/add', (req, res) => {
 
 // update data (put)
 
-router.put('/:id', (req, res) => {
+router.put('/book/:id', (req, res) => {
   const id = req.params.id; //
   const index = posts.findIndex((post) => post.id === id);
   if (index === -1) {
@@ -102,7 +102,7 @@ router.put('/:id', (req, res) => {
 
 // delete data (delete)
 
-router.delete('/:id', (req, res) => {
+router.delete('/book/:id', (req, res) => {
   const { id } = req.params;
   const post = posts.findIndex((post) => post.id === id);
   if (post === -1) {
