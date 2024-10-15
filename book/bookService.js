@@ -43,23 +43,11 @@ exports.getSingleBook = (id) => posts.find((book) => book.id === id);
 
 // Service to add a new book
 exports.addBook = (bookname, price) => {
-  if (!bookname || !price) {
-    return { error: 'Bookname and price are required.' };
-  }
-  // validation bookname
-  if (!isNaN(bookname)) {
-    return { error: 'Bookname must be a field string.' };
-  }
-  // validation price
-  if (!price || isNaN(price)) {
-    return { error: 'Price must be a field number.' };
-  }
   const newBook = {
     id: require('uuid').v4(), // Generate random ID
     bookname,
     price: parseFloat(price),
   };
-
   posts.push(newBook);
   return newBook;
 };
@@ -67,10 +55,6 @@ exports.addBook = (bookname, price) => {
 // Service to update a book
 exports.updateBook = (id, bookname, price) => {
   const index = posts.findIndex((book) => book.id === id);
-
-  if (index === -1) {
-    return { error: `Book with id ${id} not found.` };
-  }
   if (bookname) {
     posts[index].bookname = bookname;
   }
@@ -84,9 +68,6 @@ exports.updateBook = (id, bookname, price) => {
 // Service to delete a book
 exports.deleteBook = (id) => {
   const index = posts.findIndex((book) => book.id === id);
-  if (index === -1) {
-    return { error: `Book with ID ${id} not found.` };
-  }
 
   posts.splice(index, 1);
   return { msg: `Book with ID ${id} deleted.` };
