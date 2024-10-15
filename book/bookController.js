@@ -17,6 +17,9 @@ exports.getFilteredBooks = (req, res) => {
 exports.getSingleBook = (req, res) => {
   const id = req.params.id;
   const book = bookService.getSingleBook(id);
+  if (!book) {
+    return res.status(404).json({ error: `Book with id ${id} not found` });
+  }
   res.status(200).json(book);
 };
 
@@ -24,6 +27,9 @@ exports.getSingleBook = (req, res) => {
 exports.addBook = (req, res) => {
   const { bookname, price } = req.body;
   const newBook = bookService.addBook(bookname, price);
+  if (newBook.error) {
+    return res.status(400).json({ error: newBook.error });
+  }
   res.status(200).json(newBook);
 };
 
@@ -32,6 +38,9 @@ exports.updateBook = (req, res) => {
   const { id } = req.params;
   const { bookname, price } = req.body;
   const updatedBook = bookService.updateBook(id, bookname, price);
+  if (updatedBook.error) {
+    return res.status(404).json({ error: updatedBook.error });
+  }
   res.status(200).json(updatedBook);
 };
 
@@ -39,5 +48,8 @@ exports.updateBook = (req, res) => {
 exports.deleteBook = (req, res) => {
   const { id } = req.params;
   const deleted = bookService.deleteBook(id);
+  if (deleted.error) {
+    return res.status(404).json({ error: deleted.error });
+  }
   res.status(200).json({ msg: deleted.msg });
 };
